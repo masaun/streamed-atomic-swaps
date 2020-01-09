@@ -1,7 +1,9 @@
 pragma solidity 0.5.11;
 
-import "@sablier/shared-contracts/interfaces/ICERC20.sol";
-import "@sablier/shared-contracts/lifecycle/OwnableWithoutRenounce.sol";
+import "../../shared-contracts/interfaces/ICERC20.sol";
+//import "@sablier/shared-contracts/interfaces/ICERC20.sol";
+import "../../shared-contracts/lifecycle/OwnableWithoutRenounce.sol";
+//import "@sablier/shared-contracts/lifecycle/OwnableWithoutRenounce.sol";
 
 import "./interfaces/ICTokenManager.sol";
 

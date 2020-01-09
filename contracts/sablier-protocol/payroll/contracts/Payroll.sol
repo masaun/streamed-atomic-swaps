@@ -5,8 +5,10 @@ import "@openzeppelin/contracts-ethereum-package/contracts/GSN/GSNRecipient.sol"
 import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
 
-import "@sablier/protocol/contracts/Sablier.sol";
-import "@sablier/protocol/contracts/Types.sol";
+import "../../protocol/contracts/Sablier.sol";
+//import "@sablier/protocol/contracts/Sablier.sol";
+import "../../protocol/contracts/Types.sol";
+//import "@sablier/protocol/contracts/Types.sol";
 
 import "@sablier/shared-contracts/compound/Exponential.sol";
 import "@sablier/shared-contracts/interfaces/ICERC20.sol";
