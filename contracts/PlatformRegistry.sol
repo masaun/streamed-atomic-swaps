@@ -5,7 +5,7 @@ pragma experimental ABIEncoderV2;
 import "./storage/SmStorage.sol";
 import "./storage/SmConstants.sol";
 
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol";
 
 
 contract PlatformRegistry is Ownable, SmStorage, SmConstants {
