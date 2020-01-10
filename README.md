@@ -1,9 +1,10 @@
-# dApp for streaming money
+# Streamed Atomic Swaps
 （Current state is in progress）
 
 ***
-## 【Introduction of dApp for streaming money】
-- This is integrated print token dApp for streaming money.
+## 【Introduction of Streamed Atomic Swaps】
+- This is the "Streamed Atomic Swaps".
+- This is integrated print token dApp for streaming money. (Hackathon: Take Back the Web Print Tokens In Return For Streaming Money).
 
 
 &nbsp;
