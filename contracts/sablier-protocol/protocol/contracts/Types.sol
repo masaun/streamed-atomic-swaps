@@ -1,6 +1,8 @@
-pragma solidity 0.5.11;
+pragma solidity ^0.5.11;
 
-import "@sablier/shared-contracts/compound/Exponential.sol";
+import "../../shared-contracts/compound/Exponential.sol";
+//import "@sablier/shared-contracts/compound/Exponential.sol";
+
 
 /**
  * @title Sablier Types

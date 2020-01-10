@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity ^0.5.11;
 
 /**
  * @title CERC20 interface

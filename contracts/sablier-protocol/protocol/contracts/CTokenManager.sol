@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity ^0.5.11;
 
 import "../../shared-contracts/interfaces/ICERC20.sol";
 //import "@sablier/shared-contracts/interfaces/ICERC20.sol";

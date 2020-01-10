@@ -1,4 +1,4 @@
-pragma solidity 0.5.11;
+pragma solidity ^0.5.11;
 
 import "@openzeppelin/contracts-ethereum-package/contracts/GSN/bouncers/GSNBouncerSignature.sol";
 import "@openzeppelin/contracts-ethereum-package/contracts/GSN/GSNRecipient.sol";
@@ -10,9 +10,13 @@ import "../../protocol/contracts/Sablier.sol";
 import "../../protocol/contracts/Types.sol";
 //import "@sablier/protocol/contracts/Types.sol";
 
-import "@sablier/shared-contracts/compound/Exponential.sol";
-import "@sablier/shared-contracts/interfaces/ICERC20.sol";
-import "@sablier/shared-contracts/lifecycle/OwnableWithoutRenounce.sol";
+import "../../shared-contracts/compound/Exponential.sol";
+//import "@sablier/shared-contracts/compound/Exponential.sol";
+import "../../shared-contracts/interfaces/ICERC20.sol";
+//import "@sablier/shared-contracts/interfaces/ICERC20.sol";
+import "../../shared-contracts/lifecycle/OwnableWithoutRenounce.sol";
+//import "@sablier/shared-contracts/lifecycle/OwnableWithoutRenounce.sol";
+
 
 /**
  * @title Payroll Proxy
