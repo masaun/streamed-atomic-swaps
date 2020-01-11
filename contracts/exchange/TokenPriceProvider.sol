@@ -1,10 +1,12 @@
-pragma solidity ^0.5.4;
-import "../utils/SafeMath.sol";
+pragma solidity ^0.5.11;
+
+import "@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol";
 import "./ERC20.sol";
-import "../base/Managed.sol";
+//import "../base/Managed.sol";
 import "./KyberNetwork.sol";
 
-contract TokenPriceProvider is Managed {
+contract TokenPriceProvider {
+//contract TokenPriceProvider is Managed {
 
     // Mock token address for ETH
     address constant internal ETH_TOKEN_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
@@ -20,11 +22,11 @@ contract TokenPriceProvider is Managed {
         kyberNetwork = _kyberNetwork;
     }
 
-    function setPrice(ERC20 _token, uint256 _price) public onlyManager {
+    function setPrice(ERC20 _token, uint256 _price) public {
         cachedPrices[address(_token)] = _price;
     }
 
-    function setPriceForTokenList(ERC20[] calldata _tokens, uint256[] calldata _prices) external onlyManager {
+    function setPriceForTokenList(ERC20[] calldata _tokens, uint256[] calldata _prices) external {
         for(uint16 i = 0; i < _tokens.length; i++) {
             setPrice(_tokens[i], _prices[i]);
         }
@@ -46,7 +48,7 @@ contract TokenPriceProvider is Managed {
     // The following is added to be backward-compatible with Argent's old backend
     //
 
-    function setKyberNetwork(KyberNetwork _kyberNetwork) external onlyManager {
+    function setKyberNetwork(KyberNetwork _kyberNetwork) external {
         kyberNetwork = _kyberNetwork;
     }
 
