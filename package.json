@@ -8,6 +8,7 @@
     "start-blank": "rm -rf client/src && cp -rf barebones/src client/",
     "client": "cd client && npm run start",
     "console": "truffle console --network development",
+    "compile:ropsten": "truffle compile --network ropsten",
     "compile:rinkeby": "truffle compile --network rinkeby",
     "migrate": "truffle migrate --reset --network development",
     "migrate:ropsten": "truffle migrate --reset --network ropsten",
