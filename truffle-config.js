@@ -35,8 +35,8 @@ module.exports = {
         return new HDWalletProvider(process.env.MNEMONIC, process.env.RPC_URL_ROPSTEN)
       },
       network_id: '3',
-      gas: 4465030,
-      gasPrice: 10000000000,
+      //gas: 4465030,
+      //gasPrice: 10000000000,
     },
     goerli: {
       provider: function() {
