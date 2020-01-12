@@ -193,6 +193,8 @@ export default class PlatformRegistry extends Component {
               />
 
               <Button size={'small'} mt={3} mb={2} onClick={this.getTestData}> Get TestData </Button> <br />
+
+              <Button size={'small'} mt={3} mb={2} onClick={this._createSreamingMoney}> Create Sreaming Money </Button> <br />
             </Card>
           </Grid>
 
