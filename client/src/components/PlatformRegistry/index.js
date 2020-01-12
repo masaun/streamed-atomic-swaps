@@ -28,6 +28,26 @@ export default class PlatformRegistry extends Component {
     this.getTestData = this.getTestData.bind(this);
   }
 
+ 
+  _createSreamingMoney = async () => {
+    const { accounts, platform_registry, web3 } = this.state;
+
+    // const recipient = "0xad6d458402f60fd3bd25163575031acdce07538d";
+    // const deposit = "299999999999999894400";             // almost 3,000, but not quite
+    // const tokenAddress = "0xad6d458402f60fd3bd25163575031acdce07538d";  // DAI on ropsten
+    // const now = Math.round(new Date().getTime() / 1000);  // get seconds since unix epoch
+    // const startTime = now + 3600;                         // 1 hour from now
+    // const stopTime = now + 2592000 + 3600;                // 30 days and 1 hour from now
+
+    let stream = await platform_registry.methods.createSreamingMoney().send({ from: accounts[0] })
+    // let stream = await platform_registry.methods.createSreamingMoney(recipient, 
+    //                                                                  deposit, 
+    //                                                                  tokenAddress, 
+    //                                                                  startTime, 
+    //                                                                  stopTime).send({ from: accounts[0] })
+    console.log('=== response of createSreamingMoney() function ===', stream);        
+  }
+
 
   getTestData = async () => {  // This codes of async is referenced from OceanProtocol / My Little Ocean
     const { accounts, platform_registry, web3 } = this.state;
@@ -35,6 +55,9 @@ export default class PlatformRegistry extends Component {
     const response_1 = await platform_registry.methods.testFunc().send({ from: accounts[0] })
     console.log('=== response of testFunc() function ===', response_1);
   }
+
+
+
 
 
   //////////////////////////////////// 
