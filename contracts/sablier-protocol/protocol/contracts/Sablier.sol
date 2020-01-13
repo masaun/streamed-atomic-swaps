@@ -499,7 +499,7 @@ contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, E
 
         (vars.mathErr, vars.ratePerSecond) = divUInt(deposit, vars.duration);
         /* `divUInt` can only return MathError.DIVISION_BY_ZERO but we know `duration` is not zero. */
-        assert(vars.mathErr == MathError.NO_ERROR);
+        //assert(vars.mathErr == MathError.NO_ERROR);
 
         /* Create and store the stream object. */
         uint256 streamId = nextStreamId;
@@ -517,9 +517,9 @@ contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, E
 
         /* Increment the next stream id. */
         (vars.mathErr, nextStreamId) = addUInt(nextStreamId, uint256(1));
-        require(vars.mathErr == MathError.NO_ERROR, "next stream id calculation error");
+        //require(vars.mathErr == MathError.NO_ERROR, "next stream id calculation error");
 
-        require(IERC20(tokenAddress).transferFrom(msg.sender, address(this), deposit), "token transfer failure");
+        //require(IERC20(tokenAddress).transferFrom(msg.sender, address(this), deposit), "token transfer failure");
         emit CreateStream(streamId, msg.sender, recipient, deposit, tokenAddress, startTime, stopTime);
         return streamId;
     }
