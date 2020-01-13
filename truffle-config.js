@@ -21,6 +21,7 @@ module.exports = {
       network_id: '4',
       // gas: 3000000,
       // gasPrice: 10000000000,
+      skipDryRun: true
     },
     kovan: {
       provider: function() {
@@ -37,6 +38,7 @@ module.exports = {
       network_id: '3',
       //gas: 4465030,
       //gasPrice: 10000000000,
+      skipDryRun: true
     },
     goerli: {
       provider: function() {
