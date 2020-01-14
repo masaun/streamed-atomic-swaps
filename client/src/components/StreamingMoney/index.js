@@ -30,7 +30,7 @@ export default class PlatformRegistry extends Component {
 
  
   createStream = async () => {
-    const { accounts, platform_registry, web3 } = this.state;
+    const { accounts, streaming_money, web3 } = this.state;
 
     const recipient = "0x8Fc9d07b1B9542A71C4ba1702Cd230E160af6EB3";
     const deposit = "29999999999999989440";             // almost 3,000, but not quite
@@ -39,8 +39,8 @@ export default class PlatformRegistry extends Component {
     const startTime = now + 3600;                         // 1 hour from now
     const stopTime = now + 2592000 + 3600;                // 30 days and 1 hour from now
 
-    //let stream = await platform_registry.methods.createSreamingMoney().send({ from: accounts[0] })
-    let stream = await platform_registry.methods._createStream(recipient, 
+    //let stream = await streaming_money.methods.createSreamingMoney().send({ from: accounts[0] })
+    let stream = await streaming_money.methods._createStream(recipient, 
                                                                      deposit, 
                                                                      //tokenAddress, 
                                                                      startTime, 
@@ -63,9 +63,9 @@ export default class PlatformRegistry extends Component {
   //////////////////////////////////// 
   ///// Refresh Values
   ////////////////////////////////////
-  refreshValues = (instancePlatformRegistry) => {
-    if (instancePlatformRegistry) {
-      console.log('refreshValues of instancePlatformRegistry');
+  refreshValues = (instanceStreamingMoney) => {
+    if (instanceStreamingMoney) {
+      console.log('refreshValues of instanceStreamingMoney');
     }
   }
 
@@ -86,9 +86,9 @@ export default class PlatformRegistry extends Component {
   componentDidMount = async () => {
     const hotLoaderDisabled = zeppelinSolidityHotLoaderOptions.disabled;
  
-    let PlatformRegistry = {};
+    let StreamingMoney = {};
     try {
-      PlatformRegistry = require("../../../../build/contracts/PlatformRegistry.json"); // Load ABI of contract of PlatformRegistry
+      StreamingMoney = require("../../../../build/contracts/StreamingMoney.json"); // Load ABI of contract of StreamingMoney
     } catch (e) {
       console.log(e);
     }
@@ -115,22 +115,22 @@ export default class PlatformRegistry extends Component {
         let balance = accounts.length > 0 ? await web3.eth.getBalance(accounts[0]): web3.utils.toWei('0');
         balance = web3.utils.fromWei(balance, 'ether');
 
-        let instancePlatformRegistry = null;
+        let instanceStreamingMoney = null;
         let deployedNetwork = null;
 
         // Create instance of contracts
-        if (PlatformRegistry.networks) {
-          deployedNetwork = PlatformRegistry.networks[networkId.toString()];
+        if (StreamingMoney.networks) {
+          deployedNetwork = StreamingMoney.networks[networkId.toString()];
           if (deployedNetwork) {
-            instancePlatformRegistry = new web3.eth.Contract(
-              PlatformRegistry.abi,
+            instanceStreamingMoney = new web3.eth.Contract(
+              StreamingMoney.abi,
               deployedNetwork && deployedNetwork.address,
             );
-            console.log('=== instancePlatformRegistry ===', instancePlatformRegistry);
+            console.log('=== instanceStreamingMoney ===', instanceStreamingMoney);
           }
         }
 
-        if (PlatformRegistry) {
+        if (StreamingMoney) {
           // Set web3, accounts, and contract to the state, and then proceed with an
           // example of interacting with the contract's methods.
           this.setState({ 
@@ -142,13 +142,13 @@ export default class PlatformRegistry extends Component {
             networkType, 
             hotLoaderDisabled,
             isMetaMask, 
-            platform_registry: instancePlatformRegistry
+            streaming_money: instanceStreamingMoney
           }, () => {
             this.refreshValues(
-              instancePlatformRegistry
+              instanceStreamingMoney
             );
             setInterval(() => {
-              this.refreshValues(instancePlatformRegistry);
+              this.refreshValues(instanceStreamingMoney);
             }, 5000);
           });
         }

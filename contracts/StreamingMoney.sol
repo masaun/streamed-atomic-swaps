@@ -12,7 +12,7 @@ import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.so
 import "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol";
 
 
-contract PlatformRegistry is Ownable, SmStorage, SmConstants {
+contract StreamingMoney is Ownable, SmStorage, SmConstants {
 
     Sablier public sablier;
 
@@ -46,7 +46,8 @@ contract PlatformRegistry is Ownable, SmStorage, SmConstants {
     }
 
 
-    function _getStream(uint256 streamId) 
+    function _getStream(uint256 streamId)
+        public
         returns (
             address sender,
             address recipient,
