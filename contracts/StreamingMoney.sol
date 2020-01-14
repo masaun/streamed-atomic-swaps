@@ -74,5 +74,12 @@ contract StreamingMoney is Ownable, SmStorage, SmConstants {
     }
 
 
+    /*********************************
+     * @notice - Streamed Atomic Swap
+     *********************************/
+    function streamedAtomicSwap() public returns (bool) {
+        
+    }
+    
     
 }
