@@ -72,14 +72,6 @@ contract StreamingMoney is Ownable, SmStorage, SmConstants {
     function _withdrawFromStream(uint256 streamId, uint256 amount) public returns (bool) {
         sablier.withdrawFromStream(streamId, amount);
     }
-
-
-    /*********************************
-     * @notice - Streamed Atomic Swap
-     *********************************/
-    function streamedAtomicSwap() public returns (bool) {
-        
-    }
-    
+   
     
 }
