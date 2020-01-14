@@ -71,7 +71,7 @@ export default class PlatformRegistry extends Component {
     const { accounts, streaming_money, web3 } = this.state;
 
     const streamId = 1
-    const amount = 100 
+    const amount = 1
 
     let withdraw = await streaming_money.methods._withdrawFromStream(streamId, amount).send({ from: accounts[0] })
     console.log('=== response of _withdrawFromStream() function ===', withdraw);
@@ -212,7 +212,7 @@ export default class PlatformRegistry extends Component {
                   p={20} 
                   borderColor={"#E8E8E8"}
             >
-              <h4>Platform Registry</h4>
+              <h4>Streaming Money</h4>
 
               <Image
                 alt="random unsplash image"
