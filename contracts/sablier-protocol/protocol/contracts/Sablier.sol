@@ -4,13 +4,9 @@ import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.so
 import "@openzeppelin/contracts-ethereum-package/contracts/utils/ReentrancyGuard.sol";
 
 import "../../shared-contracts/compound/Exponential.sol";
-//import "@sablier/shared-contracts/compound/Exponential.sol";
 import "../../shared-contracts/interfaces/ICERC20.sol";
-//import "@sablier/shared-contracts/interfaces/ICERC20.sol";
 import "../../shared-contracts/lifecycle/OwnableWithoutRenounce.sol";
-//import "@sablier/shared-contracts/lifecycle/OwnableWithoutRenounce.sol";
 import "../../shared-contracts/lifecycle/PausableWithoutRenounce.sol";
-//import "@sablier/shared-contracts/lifecycle/PausableWithoutRenounce.sol";
 
 import "./interfaces/ICTokenManager.sol";
 import "./interfaces/IERC1620.sol";

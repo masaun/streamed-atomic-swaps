@@ -27,20 +27,29 @@ contract PlatformRegistry is Ownable, SmStorage, SmConstants {
     function createSreamingMoney(
         address recipient, 
         uint256 deposit, 
-        // address tokenAddress, 
+        //address tokenAddress, 
         uint256 startTime, 
         uint256 stopTime
     ) public returns (bool) {
         //address recipient = 0x8Fc9d07b1B9542A71C4ba1702Cd230E160af6EB3;
-        //uint256 deposit = 2999999999; // almost 3,000, but not quite
-        //uint256 startTime = block.timestamp + 3600; // 1 hour from now
-        //uint256 stopTime = block.timestamp + 2592000 + 3600; // 30 days and 1 hour from now
+        //uint256 deposit = 2999999999;                          // almost 3,000, but not quite
+        //uint256 startTime = block.timestamp + 3600;            // 1 hour from now
+        //uint256 stopTime = block.timestamp + 2592000 + 3600;   // 30 days and 1 hour from now
 
+        //IERC20 token = IERC20(tokenAddress); // get a handle for the token contract（DAI on ropsten）
         IERC20 token = IERC20(0xaD6D458402F60fD3Bd25163575031ACDce07538D); // get a handle for the token contract（DAI on ropsten）
         token.approve(address(sablier), deposit); // approve the transfer
 
         // the stream id is needed later to withdraw from or cancel the stream
+        //uint256 streamId = sablier.createStream(recipient, deposit, tokenAddress, startTime, stopTime);
         uint256 streamId = sablier.createStream(recipient, deposit, address(token), startTime, stopTime);
     }
 
+
+    function getStreamingMoney(uint256 streamId) returns (bool) {
+        return sablier.getStream(streamId);
+    }
+    
+
+    
 }
