@@ -24,7 +24,7 @@ contract PlatformRegistry is Ownable, SmStorage, SmConstants {
         return SmConstants.CONFIRMED;
     }
 
-    function createSreamingMoney(
+    function _createStream(
         address recipient, 
         uint256 deposit, 
         //address tokenAddress, 
@@ -46,7 +46,7 @@ contract PlatformRegistry is Ownable, SmStorage, SmConstants {
     }
 
 
-    function _getStreamingMoney(uint256 streamId) 
+    function _getStream(uint256 streamId) 
         returns (
             address sender,
             address recipient,
@@ -67,7 +67,7 @@ contract PlatformRegistry is Ownable, SmStorage, SmConstants {
     }
     
 
-    function withdrawStreamingMoney(uint256 streamId, uint256 amount) public returns (bool) {
+    function _withdrawFromStream(uint256 streamId, uint256 amount) public returns (bool) {
         sablier.withdrawFromStream(streamId, amount);
     }
 

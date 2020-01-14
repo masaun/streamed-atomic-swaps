@@ -29,7 +29,7 @@ export default class PlatformRegistry extends Component {
   }
 
  
-  _createSreamingMoney = async () => {
+  createStream = async () => {
     const { accounts, platform_registry, web3 } = this.state;
 
     const recipient = "0x8Fc9d07b1B9542A71C4ba1702Cd230E160af6EB3";
@@ -40,7 +40,7 @@ export default class PlatformRegistry extends Component {
     const stopTime = now + 2592000 + 3600;                // 30 days and 1 hour from now
 
     //let stream = await platform_registry.methods.createSreamingMoney().send({ from: accounts[0] })
-    let stream = await platform_registry.methods.createSreamingMoney(recipient, 
+    let stream = await platform_registry.methods._createStream(recipient, 
                                                                      deposit, 
                                                                      //tokenAddress, 
                                                                      startTime, 
@@ -194,7 +194,7 @@ export default class PlatformRegistry extends Component {
 
               <Button size={'small'} mt={3} mb={2} onClick={this.getTestData}> Get TestData </Button> <br />
 
-              <Button size={'small'} mt={3} mb={2} onClick={this._createSreamingMoney}> Create Sreaming Money </Button> <br />
+              <Button size={'small'} mt={3} mb={2} onClick={this.createStream}> Create Sream </Button> <br />
             </Card>
           </Grid>
 
