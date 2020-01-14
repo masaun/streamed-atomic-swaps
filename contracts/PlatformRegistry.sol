@@ -46,7 +46,7 @@ contract PlatformRegistry is Ownable, SmStorage, SmConstants {
     }
 
 
-    function getStreamingMoney(uint256 streamId) 
+    function _getStreamingMoney(uint256 streamId) 
         returns (
             address sender,
             address recipient,
@@ -59,6 +59,11 @@ contract PlatformRegistry is Ownable, SmStorage, SmConstants {
         )
     {
         return sablier.getStream(streamId);
+    }
+    
+
+    function _balanceOf(uint256 streamId, address who) public returns (uint256 balance) {
+        return sablier.balanceOf(streamId, who);
     }
     
 
