@@ -48,11 +48,41 @@ export default class PlatformRegistry extends Component {
     console.log('=== response of createSreamingMoney() function ===', stream);        
   }
 
+  getStream = async () => {
+    const { accounts, streaming_money, web3 } = this.state;
+
+    const streamId = 1
+
+    let stream = await streaming_money.methods._getStream(streamId).call()
+    console.log('=== response of _getStream() function ===', stream);  
+  }
+
+  balanceOf = async () => {
+    const { accounts, streaming_money, web3 } = this.state;
+
+    const streamId = 1
+    const who = accounts[0] 
+
+    let balance = await streaming_money.methods._balanceOf(streamId, who).call()
+    console.log('=== response of _balanceOf() function ===', balance);  
+  }
+
+  withdrawFromStream = async () => {
+    const { accounts, streaming_money, web3 } = this.state;
+
+    const streamId = 1
+    const amount = 100 
+
+    let withdraw = await streaming_money.methods._withdrawFromStream(streamId, amount).send({ from: accounts[0] })
+    console.log('=== response of _withdrawFromStream() function ===', withdraw);
+  }
+
+
 
   getTestData = async () => {  // This codes of async is referenced from OceanProtocol / My Little Ocean
-    const { accounts, platform_registry, web3 } = this.state;
+    const { accounts, streaming_money, web3 } = this.state;
 
-    const response_1 = await platform_registry.methods.testFunc().send({ from: accounts[0] })
+    const response_1 = await streaming_money.methods.testFunc().send({ from: accounts[0] })
     console.log('=== response of testFunc() function ===', response_1);
   }
 
@@ -195,6 +225,13 @@ export default class PlatformRegistry extends Component {
               <Button size={'small'} mt={3} mb={2} onClick={this.getTestData}> Get TestData </Button> <br />
 
               <Button size={'small'} mt={3} mb={2} onClick={this.createStream}> Create Sream </Button> <br />
+
+              <Button size={'small'} mt={3} mb={2} onClick={this.getStream}> Get Sream </Button> <br />
+
+              <Button size={'small'} mt={3} mb={2} onClick={this.balanceOf}> Balance Of </Button> <br />
+
+              <Button size={'small'} mt={3} mb={2} onClick={this.withdrawFromStream}> Withdraw From Stream </Button> <br />
+
             </Card>
           </Grid>
 
