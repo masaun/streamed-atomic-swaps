@@ -648,6 +648,13 @@ contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, E
         return true;
     }
 
+
+
+
+
+
+
+
     /*** Internal Effects & Interactions Functions ***/
 
     struct WithdrawFromStreamInternalLocalVars {

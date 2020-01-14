@@ -51,5 +51,10 @@ contract PlatformRegistry is Ownable, SmStorage, SmConstants {
     }
     
 
+    function withdrawStreamingMoney(uint256 streamId, uint256 amount) public returns (bool) {
+        sablier.withdrawFromStream(streamId, amount);
+    }
+
+    
     
 }
