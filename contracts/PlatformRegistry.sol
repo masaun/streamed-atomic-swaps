@@ -46,7 +46,18 @@ contract PlatformRegistry is Ownable, SmStorage, SmConstants {
     }
 
 
-    function getStreamingMoney(uint256 streamId) returns (bool) {
+    function getStreamingMoney(uint256 streamId) 
+        returns (
+            address sender,
+            address recipient,
+            uint256 deposit,
+            address tokenAddress,
+            uint256 startTime,
+            uint256 stopTime,
+            uint256 remainingBalance,
+            uint256 ratePerSecond
+        )
+    {
         return sablier.getStream(streamId);
     }
     
@@ -55,6 +66,6 @@ contract PlatformRegistry is Ownable, SmStorage, SmConstants {
         sablier.withdrawFromStream(streamId, amount);
     }
 
-    
+
     
 }
