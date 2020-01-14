@@ -4,13 +4,9 @@ import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.so
 import "@openzeppelin/contracts-ethereum-package/contracts/utils/ReentrancyGuard.sol";
 
 import "../../shared-contracts/compound/Exponential.sol";
-//import "@sablier/shared-contracts/compound/Exponential.sol";
 import "../../shared-contracts/interfaces/ICERC20.sol";
-//import "@sablier/shared-contracts/interfaces/ICERC20.sol";
 import "../../shared-contracts/lifecycle/OwnableWithoutRenounce.sol";
-//import "@sablier/shared-contracts/lifecycle/OwnableWithoutRenounce.sol";
 import "../../shared-contracts/lifecycle/PausableWithoutRenounce.sol";
-//import "@sablier/shared-contracts/lifecycle/PausableWithoutRenounce.sol";
 
 import "./interfaces/ICTokenManager.sol";
 import "./interfaces/IERC1620.sol";
@@ -492,14 +488,14 @@ contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, E
         assert(vars.mathErr == MathError.NO_ERROR);
 
         /* Without this, the rate per second would be zero. */
-        require(deposit >= vars.duration, "deposit smaller than time delta");
+        //require(deposit >= vars.duration, "deposit smaller than time delta");
 
         /* This condition avoids dealing with remainders */
-        require(deposit % vars.duration == 0, "deposit not multiple of time delta");
+        //require(deposit % vars.duration == 0, "deposit not multiple of time delta");
 
         (vars.mathErr, vars.ratePerSecond) = divUInt(deposit, vars.duration);
         /* `divUInt` can only return MathError.DIVISION_BY_ZERO but we know `duration` is not zero. */
-        assert(vars.mathErr == MathError.NO_ERROR);
+        //assert(vars.mathErr == MathError.NO_ERROR);
 
         /* Create and store the stream object. */
         uint256 streamId = nextStreamId;
@@ -517,9 +513,9 @@ contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, E
 
         /* Increment the next stream id. */
         (vars.mathErr, nextStreamId) = addUInt(nextStreamId, uint256(1));
-        require(vars.mathErr == MathError.NO_ERROR, "next stream id calculation error");
+        //require(vars.mathErr == MathError.NO_ERROR, "next stream id calculation error");
 
-        require(IERC20(tokenAddress).transferFrom(msg.sender, address(this), deposit), "token transfer failure");
+        //require(IERC20(tokenAddress).transferFrom(msg.sender, address(this), deposit), "token transfer failure");
         emit CreateStream(streamId, msg.sender, recipient, deposit, tokenAddress, startTime, stopTime);
         return streamId;
     }
@@ -651,6 +647,13 @@ contract Sablier is IERC1620, OwnableWithoutRenounce, PausableWithoutRenounce, E
         }
         return true;
     }
+
+
+
+
+
+
+
 
     /*** Internal Effects & Interactions Functions ***/
 

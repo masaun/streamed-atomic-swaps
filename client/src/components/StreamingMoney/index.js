@@ -28,21 +28,74 @@ export default class PlatformRegistry extends Component {
     this.getTestData = this.getTestData.bind(this);
   }
 
+ 
+  createStream = async () => {
+    const { accounts, streaming_money, web3 } = this.state;
+
+    const recipient = "0x8Fc9d07b1B9542A71C4ba1702Cd230E160af6EB3";
+    const deposit = "299999999999";             // almost 3,000, but not quite
+    //const tokenAddress = "0xad6d458402f60fd3bd25163575031acdce07538d";  // DAI on ropsten
+    const now = Math.round(new Date().getTime() / 1000);  // get seconds since unix epoch
+    const startTime = now + 3600;                         // 1 hour from now
+    const stopTime = now + 2592000 + 3600;                // 30 days and 1 hour from now
+
+    //let stream = await streaming_money.methods.createSreamingMoney().send({ from: accounts[0] })
+    let stream = await streaming_money.methods._createStream(recipient, 
+                                                                     deposit, 
+                                                                     //tokenAddress, 
+                                                                     startTime, 
+                                                                     stopTime).send({ from: accounts[0] })
+    console.log('=== response of createSreamingMoney() function ===', stream);        
+  }
+
+  getStream = async () => {
+    const { accounts, streaming_money, web3 } = this.state;
+
+    const streamId = 1
+
+    let stream = await streaming_money.methods._getStream(streamId).call()
+    console.log('=== response of _getStream() function ===', stream);  
+  }
+
+  balanceOf = async () => {
+    const { accounts, streaming_money, web3 } = this.state;
+
+    const streamId = 1
+    const who = accounts[0] 
+
+    let balance = await streaming_money.methods._balanceOf(streamId, who).call()
+    console.log('=== response of _balanceOf() function ===', balance);  
+  }
+
+  withdrawFromStream = async () => {
+    const { accounts, streaming_money, web3 } = this.state;
+
+    const streamId = 1
+    const amount = 1
+
+    let withdraw = await streaming_money.methods._withdrawFromStream(streamId, amount).send({ from: accounts[0] })
+    console.log('=== response of _withdrawFromStream() function ===', withdraw);
+  }
+
+
 
   getTestData = async () => {  // This codes of async is referenced from OceanProtocol / My Little Ocean
-    const { accounts, platform_registry, web3 } = this.state;
+    const { accounts, streaming_money, web3 } = this.state;
 
-    const response_1 = await platform_registry.methods.testFunc().send({ from: accounts[0] })
+    const response_1 = await streaming_money.methods.testFunc().send({ from: accounts[0] })
     console.log('=== response of testFunc() function ===', response_1);
   }
+
+
+
 
 
   //////////////////////////////////// 
   ///// Refresh Values
   ////////////////////////////////////
-  refreshValues = (instancePlatformRegistry) => {
-    if (instancePlatformRegistry) {
-      console.log('refreshValues of instancePlatformRegistry');
+  refreshValues = (instanceStreamingMoney) => {
+    if (instanceStreamingMoney) {
+      console.log('refreshValues of instanceStreamingMoney');
     }
   }
 
@@ -63,9 +116,9 @@ export default class PlatformRegistry extends Component {
   componentDidMount = async () => {
     const hotLoaderDisabled = zeppelinSolidityHotLoaderOptions.disabled;
  
-    let PlatformRegistry = {};
+    let StreamingMoney = {};
     try {
-      PlatformRegistry = require("../../../../build/contracts/PlatformRegistry.json"); // Load ABI of contract of PlatformRegistry
+      StreamingMoney = require("../../../../build/contracts/StreamingMoney.json"); // Load ABI of contract of StreamingMoney
     } catch (e) {
       console.log(e);
     }
@@ -92,22 +145,22 @@ export default class PlatformRegistry extends Component {
         let balance = accounts.length > 0 ? await web3.eth.getBalance(accounts[0]): web3.utils.toWei('0');
         balance = web3.utils.fromWei(balance, 'ether');
 
-        let instancePlatformRegistry = null;
+        let instanceStreamingMoney = null;
         let deployedNetwork = null;
 
         // Create instance of contracts
-        if (PlatformRegistry.networks) {
-          deployedNetwork = PlatformRegistry.networks[networkId.toString()];
+        if (StreamingMoney.networks) {
+          deployedNetwork = StreamingMoney.networks[networkId.toString()];
           if (deployedNetwork) {
-            instancePlatformRegistry = new web3.eth.Contract(
-              PlatformRegistry.abi,
+            instanceStreamingMoney = new web3.eth.Contract(
+              StreamingMoney.abi,
               deployedNetwork && deployedNetwork.address,
             );
-            console.log('=== instancePlatformRegistry ===', instancePlatformRegistry);
+            console.log('=== instanceStreamingMoney ===', instanceStreamingMoney);
           }
         }
 
-        if (PlatformRegistry) {
+        if (StreamingMoney) {
           // Set web3, accounts, and contract to the state, and then proceed with an
           // example of interacting with the contract's methods.
           this.setState({ 
@@ -119,13 +172,13 @@ export default class PlatformRegistry extends Component {
             networkType, 
             hotLoaderDisabled,
             isMetaMask, 
-            platform_registry: instancePlatformRegistry
+            streaming_money: instanceStreamingMoney
           }, () => {
             this.refreshValues(
-              instancePlatformRegistry
+              instanceStreamingMoney
             );
             setInterval(() => {
-              this.refreshValues(instancePlatformRegistry);
+              this.refreshValues(instanceStreamingMoney);
             }, 5000);
           });
         }
@@ -159,7 +212,7 @@ export default class PlatformRegistry extends Component {
                   p={20} 
                   borderColor={"#E8E8E8"}
             >
-              <h4>Platform Registry</h4>
+              <h4>Streaming Money</h4>
 
               <Image
                 alt="random unsplash image"
@@ -170,6 +223,15 @@ export default class PlatformRegistry extends Component {
               />
 
               <Button size={'small'} mt={3} mb={2} onClick={this.getTestData}> Get TestData </Button> <br />
+
+              <Button size={'small'} mt={3} mb={2} onClick={this.createStream}> Create Sream </Button> <br />
+
+              <Button size={'small'} mt={3} mb={2} onClick={this.getStream}> Get Sream </Button> <br />
+
+              <Button size={'small'} mt={3} mb={2} onClick={this.balanceOf}> Balance Of </Button> <br />
+
+              <Button size={'small'} mt={3} mb={2} onClick={this.withdrawFromStream}> Withdraw From Stream </Button> <br />
+
             </Card>
           </Grid>
 

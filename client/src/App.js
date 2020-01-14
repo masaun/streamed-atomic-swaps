@@ -5,8 +5,8 @@ import Footer from "./components/Footer/index.js";
 import Hero from "./components/Hero/index.js";
 import Web3Info from "./components/Web3Info/index.js";
 
-// PlatformRegistry
-import PlatformRegistry from "./components/PlatformRegistry/index.js";
+// StreamingMoney
+import StreamingMoney from "./components/StreamingMoney/index.js";
 
 import { Typography, Grid, TextField } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
@@ -28,12 +28,7 @@ class App extends Component {
       storageValue: 0,
       web3: null,
       accounts: null,
-      route: window.location.pathname.replace("/", ""),
-
-      certificateIdList: [],
-      deviceIdList: [],
-      certificateOwnerAddrList: [],
-      approvedCreationTimeList:[]
+      route: window.location.pathname.replace("/", "")
     };
   }
 
@@ -63,9 +58,9 @@ class App extends Component {
   componentDidMount = async () => {
     const hotLoaderDisabled = zeppelinSolidityHotLoaderOptions.disabled;
  
-    let PlatformRegistry = {};
+    let StreamingMoney = {};
     try {
-      PlatformRegistry = require("../../build/contracts/PlatformRegistry.json"); // Load ABI of contract of PlatformRegistry
+      StreamingMoney = require("../../build/contracts/StreamingMoney.json"); // Load ABI of contract of StreamingMoney
     } catch (e) {
       console.log(e);
     }
@@ -92,25 +87,22 @@ class App extends Component {
         let balance = accounts.length > 0 ? await web3.eth.getBalance(accounts[0]): web3.utils.toWei('0');
         balance = web3.utils.fromWei(balance, 'ether');
 
-        let instancePlatformRegistry = null;
+        let instanceStreamingMoney = null;
         let deployedNetwork = null;
 
         // Create instance of contracts
-        if (PlatformRegistry.networks) {
-          deployedNetwork = PlatformRegistry.networks[networkId.toString()];
+        if (StreamingMoney.networks) {
+          deployedNetwork = StreamingMoney.networks[networkId.toString()];
           if (deployedNetwork) {
-            instancePlatformRegistry = new web3.eth.Contract(
-              PlatformRegistry.abi,
+            instanceStreamingMoney = new web3.eth.Contract(
+              StreamingMoney.abi,
               deployedNetwork && deployedNetwork.address,
             );
-            console.log('=== instancePlatformRegistry ===', instancePlatformRegistry);
+            console.log('=== instanceStreamingMoney ===', instanceStreamingMoney);
           }
         }
 
-        if (PlatformRegistry) {
-        // if (PlatformRegistry || EnergyExchange || EnergyMarket || SmartMeter) {
-          // Set web3, accounts, and contract to the state, and then proceed with an
-          // example of interacting with the contract's methods.
+        if (StreamingMoney) {
           this.setState({ 
             web3, 
             ganacheAccounts, 
@@ -120,13 +112,13 @@ class App extends Component {
             networkType, 
             hotLoaderDisabled,
             isMetaMask, 
-            platform_registry: instancePlatformRegistry
+            streaming_money: instanceStreamingMoney
           }, () => {
             this.refreshValues(
-              instancePlatformRegistry
+              instanceStreamingMoney
             );
             setInterval(() => {
-              this.refreshValues(instancePlatformRegistry);
+              this.refreshValues(instanceStreamingMoney);
             }, 5000);
           });
         }
@@ -149,9 +141,9 @@ class App extends Component {
     }
   }
 
-  refreshValues = (instancePlatformRegistry) => {
-    if (instancePlatformRegistry) {
-      console.log('refreshValues of instancePlatformRegistry');
+  refreshValues = (instanceStreamingMoney) => {
+    if (instanceStreamingMoney) {
+      console.log('refreshValues of instanceStreamingMoney');
     }
   }
 
@@ -187,10 +179,10 @@ class App extends Component {
     );
   }
 
-  renderPlatformRegistry() {
+  renderStreamingMoney() {
     return (
       <div className={styles.wrapper}>
-        <PlatformRegistry />
+        <StreamingMoney />
       </div>
     );
   }
@@ -200,7 +192,7 @@ class App extends Component {
       <div className={styles.App}>
         <Header />
           {this.state.route === '' && this.renderInstructions()}
-          {this.state.route === 'platform_registry' && this.renderPlatformRegistry()}  
+          {this.state.route === 'streaming_money' && this.renderStreamingMoney()}  
         <Footer />
       </div>
     );
