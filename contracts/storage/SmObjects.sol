@@ -16,4 +16,10 @@ contract SmObjects {
         bool isEntity;
     }
 
+
+    struct CreateSwapStreamLocalVars {
+        MathError mathErr;
+        uint256 duration;
+        uint256 ratePerSecond;
+    }
 }
