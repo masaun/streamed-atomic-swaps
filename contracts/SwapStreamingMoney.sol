@@ -130,6 +130,11 @@ contract SwapStreamingMoney is Ownable, SmStorage, SmConstants {
             stopTime: stopTime
         });
 
+        /* Swap (Transfer) streaming money */
+        IERC20(tokenAddress1).transferFrom(msg.sender, address(this), deposit);
+        IERC20(tokenAddress2).transferFrom(recipient, address(this), deposit);
+
+
         /* Increment the next stream id. */
         (vars.mathErr, nextSwapStreamId) = addUInt(nextSwapStreamId, uint256(1));
         //require(vars.mathErr == MathError.NO_ERROR, "next stream id calculation error");
