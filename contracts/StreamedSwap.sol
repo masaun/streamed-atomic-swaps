@@ -52,7 +52,7 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
         IERC20 token1 = IERC20(0xaD6D458402F60fD3Bd25163575031ACDce07538D); // get a handle for the token contract（DAI on ropsten）
         token1.approve(address(sablier), deposit); // approve the transfer
 
-        IERC20 token2 = IERC20(0xaD6D458402F60fD3Bd25163575031ACDce07538D); // get a handle for the token contract（DAI on ropsten）
+        IERC20 token2 = IERC20(0xDb0040451F373949A4Be60dcd7b6B8D6E42658B6); // get a handle for the token contract（BAT on ropsten）
         token2.approve(address(sablier), deposit); // approve the transfer
 
         // the stream id is needed later to withdraw from or cancel the stream
