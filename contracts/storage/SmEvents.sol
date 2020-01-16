@@ -3,7 +3,7 @@ pragma solidity ^0.5.11;
 
 contract SmEvents {
 
-    event CreateSwapStream (
+    event CreateStreamedSwap (
         uint256 swapStreamId,
         address sender,
         address recipient, 

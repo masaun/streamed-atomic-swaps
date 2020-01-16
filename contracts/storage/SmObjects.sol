@@ -3,7 +3,7 @@ pragma solidity ^0.5.11;
 
 contract SmObjects {
 
-    struct SwapStream {
+    struct StreamedSwap {
         uint256 deposit;
         uint256 ratePerSecond;
         uint256 remainingBalance;

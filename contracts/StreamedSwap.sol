@@ -12,17 +12,17 @@ import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.so
 import "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol";
 
 
-contract SwapStreamingMoney is Ownable, SmStorage, SmConstants {
+contract StreamedSwap is Ownable, SmStorage, SmConstants {
 
     /**
      * @notice Counter for new stream ids.
      */
-    uint256 public nextSwapStreamId;
+    uint256 public nextStreamedSwapId;
 
     /**
      * @notice The stream objects identifiable by their unsigned integer ids.
      */
-    mapping(uint256 => SmObjects.SwapStream) private swapStreams;
+    mapping(uint256 => SmObjects.StreamedSwap) private streamedSwaps;
 
 
 
@@ -56,7 +56,7 @@ contract SwapStreamingMoney is Ownable, SmStorage, SmConstants {
         token2.approve(address(sablier), deposit); // approve the transfer
 
         // the stream id is needed later to withdraw from or cancel the stream
-        uint256 swapStreamId = createSwapStream(recipient, deposit, address(token1), address(token2), startTime, stopTime);
+        uint256 swapStreamId = createStreamedSwap(recipient, deposit, address(token1), address(token2), startTime, stopTime);
     }
     
 
@@ -81,7 +81,7 @@ contract SwapStreamingMoney is Ownable, SmStorage, SmConstants {
      * @param stopTime The unix timestamp for when the stream stops.
      * @return The uint256 id of the newly created stream.
      */
-    function createSwapStream(
+    function createStreamedSwap(
         address recipient, 
         uint256 deposit, 
         address tokenAddress1, 
@@ -100,7 +100,7 @@ contract SwapStreamingMoney is Ownable, SmStorage, SmConstants {
         require(startTime >= block.timestamp, "start time before block.timestamp");
         require(stopTime > startTime, "stop time before the start time");
 
-        CreateSwapStreamLocalVars memory vars;
+        CreateStreamedSwapLocalVars memory vars;
         (vars.mathErr, vars.duration) = subUInt(stopTime, startTime);
         /* `subUInt` can only return MathError.INTEGER_UNDERFLOW but we know `stopTime` is higher than `startTime`. */
         assert(vars.mathErr == MathError.NO_ERROR);
@@ -116,8 +116,8 @@ contract SwapStreamingMoney is Ownable, SmStorage, SmConstants {
         //assert(vars.mathErr == MathError.NO_ERROR);
 
         /* Create and store the swap stream object. */
-        uint256 swapStreamId = nextSwapStreamId;
-        swapStreams[swapStreamId] = SmObjects.SwapStream({
+        uint256 streamedSwapId = nextStreamedSwapId;
+        streamedSwaps[streamedSwapId] = SmObjects.StreamedSwap({
             remainingBalance: deposit,
             deposit: deposit,
             isEntity: true,
@@ -136,11 +136,11 @@ contract SwapStreamingMoney is Ownable, SmStorage, SmConstants {
 
 
         /* Increment the next stream id. */
-        (vars.mathErr, nextSwapStreamId) = addUInt(nextSwapStreamId, uint256(1));
+        (vars.mathErr, nextStreamedSwapId) = addUInt(nextStreamedSwapId, uint256(1));
         //require(vars.mathErr == MathError.NO_ERROR, "next stream id calculation error");
 
         //require(IERC20(tokenAddress).transferFrom(msg.sender, address(this), deposit), "token transfer failure");
-        emit CreateSwapStream(streamId, 
+        emit CreateStreamedSwap(streamId, 
                               msg.sender, 
                               recipient, 
                               deposit, 
@@ -148,7 +148,7 @@ contract SwapStreamingMoney is Ownable, SmStorage, SmConstants {
                               tokenAddress2, 
                               startTime, 
                               stopTime);
-        return swapStreamId;
+        return streamedSwapId;
     }
     
 }
