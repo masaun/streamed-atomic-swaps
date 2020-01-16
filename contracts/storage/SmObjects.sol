@@ -17,7 +17,7 @@ contract SmObjects {
     }
 
 
-    struct CreateSwapStreamLocalVars {
+    struct CreateStreamedSwapLocalVars {
         MathError mathErr;
         uint256 duration;
         uint256 ratePerSecond;

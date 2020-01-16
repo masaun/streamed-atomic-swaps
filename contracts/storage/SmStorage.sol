@@ -9,7 +9,7 @@ import "./SmEvents.sol";
 // shared storage
 contract SmStorage is SmObjects, SmEvents, Ownable {
 
-    mapping (uint => ExampleObject) examples;
+    //mapping (uint => ExampleObject) examples;
 
 }
 

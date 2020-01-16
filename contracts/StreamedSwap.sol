@@ -41,7 +41,7 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
     /*********************************
      * @notice - Streamed Atomic Swap
      *********************************/
-    function _createSwapStream(
+    function _createStreamedSwap(
         address recipient, 
         uint256 deposit, 
         address tokenAddress1,
@@ -56,7 +56,7 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
         token2.approve(address(sablier), deposit); // approve the transfer
 
         // the stream id is needed later to withdraw from or cancel the stream
-        uint256 swapStreamId = createStreamedSwap(recipient, deposit, address(token1), address(token2), startTime, stopTime);
+        uint256 streamedSwapId = createStreamedSwap(recipient, deposit, address(token1), address(token2), startTime, stopTime);
     }
     
 
@@ -100,10 +100,10 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
         require(startTime >= block.timestamp, "start time before block.timestamp");
         require(stopTime > startTime, "stop time before the start time");
 
-        CreateStreamedSwapLocalVars memory vars;
+        //CreateStreamedSwapLocalVars memory vars;
         (vars.mathErr, vars.duration) = subUInt(stopTime, startTime);
         /* `subUInt` can only return MathError.INTEGER_UNDERFLOW but we know `stopTime` is higher than `startTime`. */
-        assert(vars.mathErr == MathError.NO_ERROR);
+        //assert(vars.mathErr == MathError.NO_ERROR);
 
         /* Without this, the rate per second would be zero. */
         //require(deposit >= vars.duration, "deposit smaller than time delta");
