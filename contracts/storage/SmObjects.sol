@@ -1,7 +1,7 @@
 pragma solidity ^0.5.11;
 
-//import "../sablier-protocol/shared-contracts/compound/CarefulMath.sol";
-import "./shared-contracts/compound/CarefulMath.sol";
+// Inherit CarefulMath.sol via Exponential.sol
+import "../sablier-protocol/shared-contracts/compound/Exponential.sol";
 
 
 contract SmObjects {
@@ -21,8 +21,15 @@ contract SmObjects {
 
 
     struct CreateStreamedSwapLocalVars {
-        MathError mathErr;
+        //MathError mathErr;
         uint256 duration;
         uint256 ratePerSecond;
     }
+
+
+    struct ExampleObject {
+        address addr;
+        uint amount;
+    }
+    
 }

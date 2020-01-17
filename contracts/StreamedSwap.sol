@@ -4,6 +4,9 @@ pragma experimental ABIEncoderV2;
 // Sablier protocol
 import "./sablier-protocol/protocol/contracts/Sablier.sol";
 
+// Inherit CarefulMath.sol via Exponential.sol
+//import "./sablier-protocol/shared-contracts/compound/Exponential.sol";
+
 // Storage
 import "./storage/SmStorage.sol";
 import "./storage/SmConstants.sol";
