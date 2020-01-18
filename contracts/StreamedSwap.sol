@@ -5,7 +5,7 @@ pragma experimental ABIEncoderV2;
 import "./sablier-protocol/protocol/contracts/Sablier.sol";
 
 // Inherit CarefulMath.sol via Exponential.sol
-//import "./sablier-protocol/shared-contracts/compound/Exponential.sol";
+import "./sablier-protocol/shared-contracts/compound/Exponential.sol";
 
 // Storage
 import "./storage/SmStorage.sol";
@@ -103,7 +103,7 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
         require(startTime >= block.timestamp, "start time before block.timestamp");
         require(stopTime > startTime, "stop time before the start time");
 
-        //CreateStreamedSwapLocalVars memory vars;
+        CreateStreamedSwapLocalVars memory vars;
         (vars.mathErr, vars.duration) = subUInt(stopTime, startTime);
         /* `subUInt` can only return MathError.INTEGER_UNDERFLOW but we know `stopTime` is higher than `startTime`. */
         //assert(vars.mathErr == MathError.NO_ERROR);
@@ -143,7 +143,7 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
         //require(vars.mathErr == MathError.NO_ERROR, "next stream id calculation error");
 
         //require(IERC20(tokenAddress).transferFrom(msg.sender, address(this), deposit), "token transfer failure");
-        emit CreateStreamedSwap(streamId, 
+        emit CreateStreamedSwap(streamedSwapId, 
                               msg.sender, 
                               recipient, 
                               deposit, 
@@ -151,6 +151,7 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
                               tokenAddress2, 
                               startTime, 
                               stopTime);
+
         return streamedSwapId;
     }
     

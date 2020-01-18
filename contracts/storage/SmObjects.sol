@@ -4,7 +4,7 @@ pragma solidity ^0.5.11;
 import "../sablier-protocol/shared-contracts/compound/Exponential.sol";
 
 
-contract SmObjects {
+contract SmObjects is Exponential {
 
     struct StreamedSwap {
         uint256 deposit;
@@ -21,7 +21,7 @@ contract SmObjects {
 
 
     struct CreateStreamedSwapLocalVars {
-        //MathError mathErr;
+        MathError mathErr;
         uint256 duration;
         uint256 ratePerSecond;
     }
