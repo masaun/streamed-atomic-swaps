@@ -82,12 +82,16 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
          * @dev - The step is from 1st to 2nd  
          ***/
         // [1st Step]: Transfer deposited money from address of each other to contract address.
-        IERC20(tokenAddress1).transferFrom(msg.sender, address(this), deposit1);
-        IERC20(tokenAddress2).transferFrom(recipient, address(this), deposit2);
+        IERC20(tokenAddress1).transferFrom(msg.sender, address(this), 1);
+        //IERC20(tokenAddress1).transferFrom(msg.sender, address(this), deposit1);
+        IERC20(tokenAddress2).transferFrom(recipient, address(this), 1);
+        //IERC20(tokenAddress2).transferFrom(recipient, address(this), deposit2);
 
         // [2nd Step]: Transfer exchanged money from contract address to address of each other.
-        IERC20(tokenAddress1).transferFrom(address(this), recipient, deposit1);
-        IERC20(tokenAddress2).transferFrom(address(this), msg.sender, deposit2);        
+        IERC20(tokenAddress1).transferFrom(address(this), recipient, 1);
+        //IERC20(tokenAddress1).transferFrom(address(this), recipient, deposit1);
+        IERC20(tokenAddress2).transferFrom(address(this), msg.sender, 1);  
+        //IERC20(tokenAddress2).transferFrom(address(this), msg.sender, deposit2);      
 
 
         /* Increment the next stream id. */
