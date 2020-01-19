@@ -81,10 +81,10 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
          * @dev - Approve tokenAddress for specifing in method of transferFrom
          ***/
         IERC20 token1 = IERC20(tokenAddress1);     // get a handle for the token contract（DAI on ropsten）
-        token1.approve(address(sablier), deposit); // approve the transfer
+        token1.approve(address(sablier), deposit1); // approve the transfer
 
         IERC20 token2 = IERC20(tokenAddress2);     // get a handle for the token contract（BAT on ropsten）
-        token2.approve(address(sablier), deposit); // approve the transfer
+        token2.approve(address(sablier), deposit2); // approve the transfer
 
         /*** 
          * @notice - Swap streamed money
