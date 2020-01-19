@@ -7,7 +7,8 @@ import "../sablier-protocol/shared-contracts/compound/Exponential.sol";
 contract SmObjects is Exponential {
 
     struct StreamedSwap {
-        uint256 deposit;
+        uint256 deposit1;  // Deposited amount of token Address 1
+        uint256 deposit2;  // Deposited amount of token Address 2
         uint256 ratePerSecond;
         uint256 remainingBalance;
         uint256 startTime;

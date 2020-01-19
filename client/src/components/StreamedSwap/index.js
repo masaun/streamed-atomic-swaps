@@ -33,7 +33,8 @@ export default class StreamedSwap extends Component {
     const { accounts, streamed_swap, web3 } = this.state;
 
     const recipient = "0x8Fc9d07b1B9542A71C4ba1702Cd230E160af6EB3";
-    const deposit = "299999999999";             // almost 3,000, but not quite
+    const deposit1 = "299999999999";  // Deposited amount of token Address 1（DAI）
+    const deposit2 = "300000000001";  // Deposited amount of token Address 2（BAT）
     const tokenAddress1 = "0xaD6D458402F60fD3Bd25163575031ACDce07538D";  // DAI on ropsten
     const tokenAddress2 = "0xDb0040451F373949A4Be60dcd7b6B8D6E42658B6";  // BAT on ropsten    
     const now = Math.round(new Date().getTime() / 1000);  // get seconds since unix epoch
@@ -41,7 +42,8 @@ export default class StreamedSwap extends Component {
     const stopTime = now + 2592000 + 3600;                // 30 days and 1 hour from now
 
     let streamedSwap = await streamed_swap.methods._createStreamedSwap(recipient, 
-                                                                 deposit, 
+                                                                 deposit1, 
+                                                                 deposit2, 
                                                                  tokenAddress1,
                                                                  tokenAddress2, 
                                                                  startTime, 

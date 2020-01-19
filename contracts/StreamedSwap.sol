@@ -46,22 +46,13 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
      *********************************/
     function _createStreamedSwap(
         address recipient, 
-        uint256 deposit, 
-        address tokenAddress1,
-        address tokenAddress2, 
+        uint256 deposit1,      // Deposited amount of token Address 1
+        uint256 deposit2,      // Deposited amount of token Address 2 
+        address tokenAddress1, // Token Address 1
+        address tokenAddress2, // Token Address 2
         uint256 startTime, 
         uint256 stopTime
     ) public returns (uint256) {
-        IERC20 token1 = IERC20(0xaD6D458402F60fD3Bd25163575031ACDce07538D); // get a handle for the token contract（DAI on ropsten）
-        token1.approve(address(sablier), deposit); // approve the transfer
-
-        IERC20 token2 = IERC20(0xDb0040451F373949A4Be60dcd7b6B8D6E42658B6); // get a handle for the token contract（BAT on ropsten）
-        token2.approve(address(sablier), deposit); // approve the transfer
-
-        // the stream id is needed later to withdraw from or cancel the stream
-        //uint256 streamedSwapId = createStreamedSwap(recipient, deposit, address(token1), address(token2), startTime, stopTime);
-
-
         /*** 
          * @notice - Integrate createStreamedSwap() 
          ***/
@@ -72,7 +63,8 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
         /* Create and store the swap stream object. */
         uint256 streamedSwapId = nextStreamedSwapId;
         streamedSwaps[streamedSwapId] = SmObjects.StreamedSwap({
-            deposit: deposit,
+            deposit1: deposit1,  // Deposited amount of token Address 1
+            deposit2: deposit2,  // Deposited amount of token Address 2
             ratePerSecond: vars.ratePerSecond,
             remainingBalance: deposit,
             startTime: startTime,
@@ -84,9 +76,18 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
             isEntity: true
         });
 
-        /* Swap (Transfer) streaming money */
+        /*** 
+         * @notice - Swap streamed money
+         * @dev - The step is from 1st to 2nd  
+         ***/
+        // [1st Step]: Transfer deposited money from address of each other to contract address.
         IERC20(tokenAddress1).transferFrom(msg.sender, address(this), deposit);
         IERC20(tokenAddress2).transferFrom(recipient, address(this), deposit);
+
+        // [2nd Step]: Transfer exchanged money from contract address to address of each other.
+        IERC20(tokenAddress1).transferFrom(address(this), msg.sender, deposit);
+        IERC20(tokenAddress2).transferFrom(address(this), recipient, deposit);        
+
 
         /* Increment the next stream id. */
         (vars.mathErr, nextStreamedSwapId) = addUInt(nextStreamedSwapId, uint256(1));
