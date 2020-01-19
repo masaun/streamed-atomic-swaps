@@ -58,7 +58,7 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
          ***/
         CreateStreamedSwapLocalVars memory vars;
         (vars.mathErr, vars.duration) = subUInt(stopTime, startTime);
-        (vars.mathErr, vars.ratePerSecond) = divUInt(deposit, vars.duration);
+        (vars.mathErr, vars.ratePerSecond) = divUInt(deposit1, vars.duration);
 
         /* Create and store the swap stream object. */
         uint256 streamedSwapId = nextStreamedSwapId;
@@ -66,7 +66,8 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
             deposit1: deposit1,  // Deposited amount of token Address 1
             deposit2: deposit2,  // Deposited amount of token Address 2
             ratePerSecond: vars.ratePerSecond,
-            remainingBalance: deposit,
+            remainingBalance1: deposit1,
+            remainingBalance2: deposit2,
             startTime: startTime,
             stopTime: stopTime,
             recipient: recipient,
@@ -81,12 +82,12 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
          * @dev - The step is from 1st to 2nd  
          ***/
         // [1st Step]: Transfer deposited money from address of each other to contract address.
-        IERC20(tokenAddress1).transferFrom(msg.sender, address(this), deposit);
-        IERC20(tokenAddress2).transferFrom(recipient, address(this), deposit);
+        IERC20(tokenAddress1).transferFrom(msg.sender, address(this), deposit1);
+        IERC20(tokenAddress2).transferFrom(recipient, address(this), deposit2);
 
         // [2nd Step]: Transfer exchanged money from contract address to address of each other.
-        IERC20(tokenAddress1).transferFrom(address(this), msg.sender, deposit);
-        IERC20(tokenAddress2).transferFrom(address(this), recipient, deposit);        
+        IERC20(tokenAddress1).transferFrom(address(this), recipient, deposit1);
+        IERC20(tokenAddress2).transferFrom(address(this), msg.sender, deposit2);        
 
 
         /* Increment the next stream id. */
@@ -95,7 +96,8 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
         emit CreateStreamedSwap(streamedSwapId, 
                                 msg.sender, 
                                 recipient, 
-                                deposit, 
+                                deposit1,
+                                deposit2, 
                                 tokenAddress1, 
                                 tokenAddress2, 
                                 startTime, 

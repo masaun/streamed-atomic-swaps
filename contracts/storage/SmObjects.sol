@@ -10,7 +10,8 @@ contract SmObjects is Exponential {
         uint256 deposit1;  // Deposited amount of token Address 1
         uint256 deposit2;  // Deposited amount of token Address 2
         uint256 ratePerSecond;
-        uint256 remainingBalance;
+        uint256 remainingBalance1;
+        uint256 remainingBalance2;        
         uint256 startTime;
         uint256 stopTime;
         address recipient;
