@@ -42,12 +42,12 @@ export default class StreamedSwap extends Component {
     const stopTime = now + 2592000 + 3600;                // 30 days and 1 hour from now
 
     let streamedSwap = await streamed_swap.methods._createStreamedSwap(recipient, 
-                                                                 deposit1, 
-                                                                 deposit2, 
-                                                                 tokenAddress1,
-                                                                 tokenAddress2, 
-                                                                 startTime, 
-                                                                 stopTime).send({ from: accounts[0] })
+                                                                       deposit1, 
+                                                                       deposit2, 
+                                                                       tokenAddress1,
+                                                                       tokenAddress2, 
+                                                                       startTime, 
+                                                                       stopTime).send({ from: accounts[0] })
     console.log('=== response of _createStreamedSwap() function ===', streamedSwap);        
   }
 
@@ -117,7 +117,7 @@ export default class StreamedSwap extends Component {
         let balance = accounts.length > 0 ? await web3.eth.getBalance(accounts[0]): web3.utils.toWei('0');
         balance = web3.utils.fromWei(balance, 'ether');
 
-        let instanceStreamingMoney = null;
+        let instanceStreamedSwap = null;
         let deployedNetwork = null;
 
         // Create instance of contracts
@@ -184,7 +184,7 @@ export default class StreamedSwap extends Component {
                   p={20} 
                   borderColor={"#E8E8E8"}
             >
-              <h4>Streaming Money</h4>
+              <h4>Streamed Swap</h4>
 
               <Image
                 alt="random unsplash image"
@@ -196,14 +196,7 @@ export default class StreamedSwap extends Component {
 
               <Button size={'small'} mt={3} mb={2} onClick={this.getTestData}> Get TestData </Button> <br />
 
-              <Button size={'small'} mt={3} mb={2} onClick={this.createStream}> Create Sream </Button> <br />
-
-              <Button size={'small'} mt={3} mb={2} onClick={this.getStream}> Get Sream </Button> <br />
-
-              <Button size={'small'} mt={3} mb={2} onClick={this.balanceOf}> Balance Of </Button> <br />
-
-              <Button size={'small'} mt={3} mb={2} onClick={this.withdrawFromStream}> Withdraw From Stream </Button> <br />
-
+              <Button size={'small'} mt={3} mb={2} onClick={this.createStreamedSwap}> create Streamed Swap </Button> <br />
             </Card>
           </Grid>
 
