@@ -117,10 +117,10 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
     /**
      * @notice Returns the compounding stream with all its properties.
      * @dev Throws if the id does not point to a valid streamedSwap.
-     * @param streamedSwaoId The id of the stream to query.
+     * @param streamedSwapId The id of the stream to query.
      * @return The streamedSwap object.
      */
-    function getStreamedSwap(uint256 streamSwapId)
+    function getStreamedSwap(uint256 streamedSwapId)
         external
         view
         //streamedSwapExists(streamedSwapId)
