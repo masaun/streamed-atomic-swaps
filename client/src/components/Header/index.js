@@ -8,6 +8,8 @@ const Header = () => (
         <li><a href="/" className={styles.link}><span style={{ padding: "60px" }}> Home </span></a></li>
 
         <li><a href="/streaming_money" className={styles.link}> Streaming Money</a></li>
+
+        <li><a href="/streamed_swap" className={styles.link}> Streamed Swap</a></li>
       </ul>
     </nav>
   </div>

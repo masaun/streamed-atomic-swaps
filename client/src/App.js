@@ -8,6 +8,9 @@ import Web3Info from "./components/Web3Info/index.js";
 // StreamingMoney
 import StreamingMoney from "./components/StreamingMoney/index.js";
 
+// StreamedSwap
+import StreamedSwap from "./components/StreamedSwap/index.js";
+
 import { Typography, Grid, TextField } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import { theme } from './utils/theme';
@@ -59,8 +62,10 @@ class App extends Component {
     const hotLoaderDisabled = zeppelinSolidityHotLoaderOptions.disabled;
  
     let StreamingMoney = {};
+    let StreamedSwap = {};
     try {
       StreamingMoney = require("../../build/contracts/StreamingMoney.json"); // Load ABI of contract of StreamingMoney
+      StreamedSwap = require("../../build/contracts/StreamedSwap.json");     // Load ABI of contract of StreamedSwap
     } catch (e) {
       console.log(e);
     }
@@ -88,6 +93,7 @@ class App extends Component {
         balance = web3.utils.fromWei(balance, 'ether');
 
         let instanceStreamingMoney = null;
+        let instanceStreamedSwap = null;
         let deployedNetwork = null;
 
         // Create instance of contracts
@@ -102,7 +108,18 @@ class App extends Component {
           }
         }
 
-        if (StreamingMoney) {
+        if (StreamedSwap.networks) {
+          deployedNetwork = StreamedSwap.networks[networkId.toString()];
+          if (deployedNetwork) {
+            instanceStreamedSwap = new web3.eth.Contract(
+              StreamedSwap.abi,
+              deployedNetwork && deployedNetwork.address,
+            );
+            console.log('=== instanceStreamedSwap ===', instanceStreamedSwap);
+          }
+        }
+
+        if (StreamingMoney || StreamedSwap) {
           this.setState({ 
             web3, 
             ganacheAccounts, 
@@ -112,13 +129,14 @@ class App extends Component {
             networkType, 
             hotLoaderDisabled,
             isMetaMask, 
-            streaming_money: instanceStreamingMoney
+            streaming_money: instanceStreamingMoney,
+            streamed_swap: instanceStreamedSwap
           }, () => {
             this.refreshValues(
               instanceStreamingMoney
             );
             setInterval(() => {
-              this.refreshValues(instanceStreamingMoney);
+              this.refreshValues(instanceStreamingMoney, instanceStreamingMoney);
             }, 5000);
           });
         }
@@ -187,12 +205,21 @@ class App extends Component {
     );
   }
 
+  renderStreamedSwap() {
+    return (
+      <div className={styles.wrapper}>
+        <StreamedSwap />
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className={styles.App}>
         <Header />
           {this.state.route === '' && this.renderInstructions()}
           {this.state.route === 'streaming_money' && this.renderStreamingMoney()}  
+          {this.state.route === 'streamed_swap' && this.renderStreamedSwap()} 
         <Footer />
       </div>
     );
