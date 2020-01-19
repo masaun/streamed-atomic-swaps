@@ -13,7 +13,7 @@ import styles from '../../App.module.scss';
 //import './App.css';
 
 
-export default class StreamingMoney extends Component {
+export default class StreamedSwap extends Component {
   constructor(props) {    
     super(props);
 
@@ -29,60 +29,30 @@ export default class StreamingMoney extends Component {
   }
 
  
-  createStream = async () => {
-    const { accounts, streaming_money, web3 } = this.state;
+  createStreamedSwap = async () => {
+    const { accounts, streamed_swap, web3 } = this.state;
 
     const recipient = "0x8Fc9d07b1B9542A71C4ba1702Cd230E160af6EB3";
     const deposit = "299999999999";             // almost 3,000, but not quite
-    //const tokenAddress = "0xad6d458402f60fd3bd25163575031acdce07538d";  // DAI on ropsten
+    const tokenAddress1 = "0xaD6D458402F60fD3Bd25163575031ACDce07538D";  // DAI on ropsten
+    const tokenAddress2 = "0xDb0040451F373949A4Be60dcd7b6B8D6E42658B6";  // BAT on ropsten    
     const now = Math.round(new Date().getTime() / 1000);  // get seconds since unix epoch
     const startTime = now + 3600;                         // 1 hour from now
     const stopTime = now + 2592000 + 3600;                // 30 days and 1 hour from now
 
-    //let stream = await streaming_money.methods.createSreamingMoney().send({ from: accounts[0] })
-    let stream = await streaming_money.methods._createStream(recipient, 
-                                                                     deposit, 
-                                                                     //tokenAddress, 
-                                                                     startTime, 
-                                                                     stopTime).send({ from: accounts[0] })
-    console.log('=== response of createSreamingMoney() function ===', stream);        
+    let streamedSwap = await streamed_swap.methods._createStreamedSwap(recipient, 
+                                                                 deposit, 
+                                                                 tokenAddress1,
+                                                                 tokenAddress2, 
+                                                                 startTime, 
+                                                                 stopTime).send({ from: accounts[0] })
+    console.log('=== response of _createStreamedSwap() function ===', streamedSwap);        
   }
-
-  getStream = async () => {
-    const { accounts, streaming_money, web3 } = this.state;
-
-    const streamId = 1
-
-    let stream = await streaming_money.methods._getStream(streamId).call()
-    console.log('=== response of _getStream() function ===', stream);  
-  }
-
-  balanceOf = async () => {
-    const { accounts, streaming_money, web3 } = this.state;
-
-    const streamId = 1
-    const who = accounts[0] 
-
-    let balance = await streaming_money.methods._balanceOf(streamId, who).call()
-    console.log('=== response of _balanceOf() function ===', balance);  
-  }
-
-  withdrawFromStream = async () => {
-    const { accounts, streaming_money, web3 } = this.state;
-
-    const streamId = 1
-    const amount = 1
-
-    let withdraw = await streaming_money.methods._withdrawFromStream(streamId, amount).send({ from: accounts[0] })
-    console.log('=== response of _withdrawFromStream() function ===', withdraw);
-  }
-
-
 
   getTestData = async () => {  // This codes of async is referenced from OceanProtocol / My Little Ocean
-    const { accounts, streaming_money, web3 } = this.state;
+    const { accounts, streamed_swap, web3 } = this.state;
 
-    const response_1 = await streaming_money.methods.testFunc().send({ from: accounts[0] })
+    const response_1 = await streamed_swap.methods.testFunc().send({ from: accounts[0] })
     console.log('=== response of testFunc() function ===', response_1);
   }
 
@@ -116,9 +86,9 @@ export default class StreamingMoney extends Component {
   componentDidMount = async () => {
     const hotLoaderDisabled = zeppelinSolidityHotLoaderOptions.disabled;
  
-    let StreamingMoney = {};
+    let StreamedSwap = {};
     try {
-      StreamingMoney = require("../../../../build/contracts/StreamingMoney.json"); // Load ABI of contract of StreamingMoney
+      StreamedSwap = require("../../../../build/contracts/StreamedSwap.json"); // Load ABI of contract of StreamedSwap
     } catch (e) {
       console.log(e);
     }
@@ -149,18 +119,18 @@ export default class StreamingMoney extends Component {
         let deployedNetwork = null;
 
         // Create instance of contracts
-        if (StreamingMoney.networks) {
-          deployedNetwork = StreamingMoney.networks[networkId.toString()];
+        if (StreamedSwap.networks) {
+          deployedNetwork = StreamedSwap.networks[networkId.toString()];
           if (deployedNetwork) {
-            instanceStreamingMoney = new web3.eth.Contract(
-              StreamingMoney.abi,
+            instanceStreamedSwap = new web3.eth.Contract(
+              StreamedSwap.abi,
               deployedNetwork && deployedNetwork.address,
             );
-            console.log('=== instanceStreamingMoney ===', instanceStreamingMoney);
+            console.log('=== instanceStreamedSwap ===', instanceStreamedSwap);
           }
         }
 
-        if (StreamingMoney) {
+        if (StreamedSwap) {
           // Set web3, accounts, and contract to the state, and then proceed with an
           // example of interacting with the contract's methods.
           this.setState({ 
@@ -172,13 +142,13 @@ export default class StreamingMoney extends Component {
             networkType, 
             hotLoaderDisabled,
             isMetaMask, 
-            streaming_money: instanceStreamingMoney
+            streamed_swap: instanceStreamedSwap
           }, () => {
             this.refreshValues(
-              instanceStreamingMoney
+              instanceStreamedSwap
             );
             setInterval(() => {
-              this.refreshValues(instanceStreamingMoney);
+              this.refreshValues(instanceStreamedSwap);
             }, 5000);
           });
         }
