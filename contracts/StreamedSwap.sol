@@ -25,6 +25,7 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
     /**
      * @notice The stream objects identifiable by their unsigned integer ids.
      */
+    //mapping(uint256 => SmObjects.StreamedSwap) public streamedSwaps;  // I will fix access modifier from below to this
     mapping(uint256 => SmObjects.StreamedSwap) private streamedSwaps;
 
 
