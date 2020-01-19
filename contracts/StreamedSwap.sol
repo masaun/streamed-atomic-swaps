@@ -110,5 +110,44 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
 
         return streamedSwapId;
     }
-    
+
+
+    /*** View Functions ***/
+
+    /**
+     * @notice Returns the compounding stream with all its properties.
+     * @dev Throws if the id does not point to a valid streamedSwap.
+     * @param streamedSwaoId The id of the stream to query.
+     * @return The streamedSwap object.
+     */
+    function getStreamedSwap(uint256 streamSwapId)
+        external
+        view
+        //streamedSwapExists(streamedSwapId)
+        returns (
+            address sender,
+            address recipient,
+            uint256 deposit1,
+            uint256 deposit2,
+            address tokenAddress1,
+            address tokenAddress2,
+            uint256 startTime,
+            uint256 stopTime,
+            uint256 remainingBalance1,
+            uint256 remainingBalance2,
+            uint256 ratePerSecond
+        )
+    {
+        sender = streamedSwaps[streamedSwapId].sender;
+        recipient = streamedSwaps[streamedSwapId].recipient;
+        deposit1 = streamedSwaps[streamedSwapId].deposit1;
+        deposit2 = streamedSwaps[streamedSwapId].deposit2;
+        tokenAddress1 = streamedSwaps[streamedSwapId].tokenAddress1;
+        tokenAddress2 = streamedSwaps[streamedSwapId].tokenAddress2;
+        startTime = streamedSwaps[streamedSwapId].startTime;
+        stopTime = streamedSwaps[streamedSwapId].stopTime;
+        remainingBalance1 = streamedSwaps[streamedSwapId].remainingBalance1;
+        remainingBalance2 = streamedSwaps[streamedSwapId].remainingBalance2;
+        ratePerSecond = streamedSwaps[streamedSwapId].ratePerSecond;
+    }
 }
