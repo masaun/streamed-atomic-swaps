@@ -81,26 +81,26 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
         /*** 
          * @dev - Approve tokenAddress for specifing in method of transferFrom
          ***/
-        ERC20 token1 = ERC20(tokenAddress1);     // get a handle for the token contract（DAI on ropsten）
-        token1.approve(address(sablier), deposit1); // approve the transfer
+        //ERC20 token1 = ERC20(tokenAddress1);     // get a handle for the token contract（DAI on ropsten）
+        //token1.approve(address(sablier), deposit1); // approve the transfer
 
-        ERC20 token2 = ERC20(tokenAddress2);     // get a handle for the token contract（BAT on ropsten）
-        token2.approve(address(sablier), deposit2); // approve the transfer
+        //ERC20 token2 = ERC20(tokenAddress2);     // get a handle for the token contract（BAT on ropsten）
+        //token2.approve(address(sablier), deposit2); // approve the transfer
 
         /*** 
          * @notice - Swap streamed money
          * @dev - The step is from 1st to 2nd  
          ***/
         // [1st Step]: Transfer deposited money from address of each other to contract address.
-        ERC20(token1).transferFrom(msg.sender, address(this), 1);
+        //ERC20(token1).transferFrom(msg.sender, address(this), 1);
         //IERC20(tokenAddress1).transferFrom(msg.sender, address(this), deposit1);
-        ERC20(token2).transferFrom(recipient, address(this), 1);
+        //ERC20(token2).transferFrom(recipient, address(this), 1);
         //IERC20(tokenAddress2).transferFrom(recipient, address(this), deposit2);
 
         // [2nd Step]: Transfer exchanged money from contract address to address of each other.
-        ERC20(token1).transferFrom(address(this), recipient, 1);
+        //ERC20(token1).transferFrom(address(this), recipient, 1);
         //IERC20(tokenAddress1).transferFrom(address(this), recipient, deposit1);
-        ERC20(token2).transferFrom(address(this), msg.sender, 1);  
+        //ERC20(token2).transferFrom(address(this), msg.sender, 1);  
         //IERC20(tokenAddress2).transferFrom(address(this), msg.sender, deposit2);      
 
 
