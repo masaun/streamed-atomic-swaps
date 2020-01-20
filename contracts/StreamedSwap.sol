@@ -11,7 +11,8 @@ import "./sablier-protocol/shared-contracts/compound/Exponential.sol";
 import "./storage/SmStorage.sol";
 import "./storage/SmConstants.sol";
 
-import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol";     // ERC20
+//import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol";  // IERC20
 import "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol";
 
 
@@ -80,10 +81,10 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
         /*** 
          * @dev - Approve tokenAddress for specifing in method of transferFrom
          ***/
-        IERC20 token1 = IERC20(tokenAddress1);     // get a handle for the token contract（DAI on ropsten）
+        ERC20 token1 = ERC20(tokenAddress1);     // get a handle for the token contract（DAI on ropsten）
         token1.approve(address(sablier), deposit1); // approve the transfer
 
-        IERC20 token2 = IERC20(tokenAddress2);     // get a handle for the token contract（BAT on ropsten）
+        ERC20 token2 = ERC20(tokenAddress2);     // get a handle for the token contract（BAT on ropsten）
         token2.approve(address(sablier), deposit2); // approve the transfer
 
         /*** 
@@ -91,15 +92,15 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
          * @dev - The step is from 1st to 2nd  
          ***/
         // [1st Step]: Transfer deposited money from address of each other to contract address.
-        IERC20(token1).transferFrom(msg.sender, address(this), 1);
+        ERC20(token1).transferFrom(msg.sender, address(this), 1);
         //IERC20(tokenAddress1).transferFrom(msg.sender, address(this), deposit1);
-        IERC20(token2).transferFrom(recipient, address(this), 1);
+        ERC20(token2).transferFrom(recipient, address(this), 1);
         //IERC20(tokenAddress2).transferFrom(recipient, address(this), deposit2);
 
         // [2nd Step]: Transfer exchanged money from contract address to address of each other.
-        IERC20(token1).transferFrom(address(this), recipient, 1);
+        ERC20(token1).transferFrom(address(this), recipient, 1);
         //IERC20(tokenAddress1).transferFrom(address(this), recipient, deposit1);
-        IERC20(token2).transferFrom(address(this), msg.sender, 1);  
+        ERC20(token2).transferFrom(address(this), msg.sender, 1);  
         //IERC20(tokenAddress2).transferFrom(address(this), msg.sender, deposit2);      
 
 
