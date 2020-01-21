@@ -11,12 +11,16 @@ import "./sablier-protocol/shared-contracts/compound/Exponential.sol";
 import "./storage/SmStorage.sol";
 import "./storage/SmConstants.sol";
 
-import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol";     // ERC20
-//import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol";  // IERC20
+//import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol"; // ERC20
+import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol";  // IERC20
 import "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol";
+
+import "@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol";
 
 
 contract StreamedSwap is Ownable, SmStorage, SmConstants {
+
+     using SafeMath for uint256;
 
     /**
      * @notice Counter for new stream ids.
@@ -93,15 +97,15 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
          ***/
         // [1st Step]: Transfer deposited money from address of each other to contract address.
         //ERC20(token1).transferFrom(msg.sender, address(this), 1);
-        //IERC20(tokenAddress1).transferFrom(msg.sender, address(this), deposit1);
+        IERC20(tokenAddress1).transferFrom(msg.sender, address(this), deposit1.div(10**18));
         //ERC20(token2).transferFrom(recipient, address(this), 1);
-        //IERC20(tokenAddress2).transferFrom(recipient, address(this), deposit2);
+        IERC20(tokenAddress2).transferFrom(recipient, address(this), deposit2.div(10**18));
 
         // [2nd Step]: Transfer exchanged money from contract address to address of each other.
         //ERC20(token1).transferFrom(address(this), recipient, 1);
-        //IERC20(tokenAddress1).transferFrom(address(this), recipient, deposit1);
+        IERC20(tokenAddress1).transferFrom(address(this), recipient, deposit1.div(10**18));
         //ERC20(token2).transferFrom(address(this), msg.sender, 1);  
-        //IERC20(tokenAddress2).transferFrom(address(this), msg.sender, deposit2);      
+        IERC20(tokenAddress2).transferFrom(address(this), msg.sender, deposit2.div(10**18));
 
 
         /* Increment the next stream id. */
