@@ -20,7 +20,7 @@ import "@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol";
 
 contract StreamedSwap is Ownable, SmStorage, SmConstants {
 
-     using SafeMath for uint256;
+    using SafeMath for uint256;
 
     /**
      * @notice Counter for new stream ids.

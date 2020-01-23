@@ -29,6 +29,18 @@ contract SmObjects is Exponential {
     }
 
 
+    /***
+     * @notice - This struct is for streamed-compounding-swap
+     ***/
+    struct CreateStreamedCompoundingSwapLocalVars {
+        MathError mathErr;
+        uint256 shareSum;
+        uint256 underlyingBalance;
+        uint256 senderShareMantissa;
+        uint256 recipientShareMantissa;
+    }
+
+
     struct ExampleObject {
         address addr;
         uint amount;
