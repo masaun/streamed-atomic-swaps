@@ -32,14 +32,14 @@ contract SmObjects is Exponential {
     /***
      * @notice - This struct is for streamed-compounding-swap
      ***/
-    struct StreamedCompoundingSwapVars {
+    struct CompoundingStreamedSwapVars {
         Exponential.Exp exchangeRateInitial;
         Exponential.Exp senderShare;
         Exponential.Exp recipientShare;
         bool isEntity;
     }
 
-    struct CreateStreamedCompoundingSwapLocalVars {
+    struct CreateCompoundingStreamedSwapLocalVars {
         MathError mathErr;
         uint256 shareSum;
         uint256 underlyingBalance;

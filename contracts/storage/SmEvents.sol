@@ -15,4 +15,10 @@ contract SmEvents {
         uint256 stopTime
     );
 
+    event CreateCompoundingStreamedSwap(
+        uint256 indexed streamedSwapId, 
+        uint256 exchangeRateCurrent, 
+        uint256 senderSharePercentage, 
+        uint256 recipientSharePercentage
+    );
 }
