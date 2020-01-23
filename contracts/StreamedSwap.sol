@@ -157,8 +157,8 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
 
     function _createCompoundingStreamedSwap(
         address recipient, 
-        uint256 deposit1,      // Deposited amount of token Address 1
-        uint256 deposit2,      // Deposited amount of token Address 2 
+        //uint256 deposit1,      // Deposited amount of token Address 1
+        //uint256 deposit2,      // Deposited amount of token Address 2 
         address tokenAddress1, // Token Address 1
         address tokenAddress2, // Token Address 2
         uint256 startTime,
@@ -166,6 +166,13 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
         uint256 senderSharePercentage,    // Specify percentage of sender for sharing earned interest
         uint256 recipientSharePercentage  // Specify percentage of recipient for sharing earned interest
     ) public returns (uint256) {
+
+        /*** 
+         * @notice - Specify and assign constant value temporarily
+         ***/
+        uint256 deposit1 = 100;    // Deposited amount of token Address 1
+        uint256 deposit2 = 100;    // Deposited amount of token Address 2 
+
         /*** 
          * @notice - Integrate createStreamedSwap() 
          ***/
