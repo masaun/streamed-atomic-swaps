@@ -32,7 +32,10 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
      */
     mapping(uint256 => SmObjects.StreamedSwap) private streamedSwaps;
 
-
+    /**
+     * @notice Stores information about the initial state of the underlying of the cToken.
+     */
+    mapping(uint256 => SmObjects.StreamedCompoundingSwapVars) private streamedCompoundingSwapVars;
 
 
     Sablier public sablier;
@@ -156,21 +159,20 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
      * @notice - This method is for streamed-compounding-swap
      ***/
     function createStreamedCompoundingSwap(
-        address recipient,
-        uint256 deposit,
-        address tokenAddress,
+        address recipient, 
+        uint256 deposit1,      // Deposited amount of token Address 1
+        uint256 deposit2,      // Deposited amount of token Address 2 
+        address tokenAddress1, // Token Address 1
+        address tokenAddress2, // Token Address 2
         uint256 startTime,
         uint256 stopTime,
-        uint256 senderSharePercentage,
-        uint256 recipientSharePercentage
+        uint256 senderSharePercentage,    // Specify percentage of sender for sharing earned interest
+        uint256 recipientSharePercentage  // Specify percentage of recipient for sharing earned interest
     ) external whenNotPaused returns (uint256) {
-        require(cTokenManager.isCToken(tokenAddress), "cToken is not whitelisted");
         CreateStreamedCompoundingSwapLocalVars memory vars;
 
         /* Ensure that the interest shares sum up to 100%. */
         (vars.mathErr, vars.shareSum) = addUInt(senderSharePercentage, recipientSharePercentage);
-        require(vars.mathErr == MathError.NO_ERROR, "share sum calculation error");
-        require(vars.shareSum == 100, "shares do not sum up to 100");
 
         uint256 streamId = _createStreamedSwap(recipient, deposit, tokenAddress, startTime, stopTime);
 
@@ -179,19 +181,6 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
          * by one percent in Exp terms.
          */
         (vars.mathErr, vars.senderShareMantissa) = mulUInt(senderSharePercentage, onePercent);
-        /*
-         * `mulUInt` can only return MathError.INTEGER_OVERFLOW but we control `onePercent` and
-         * we know `senderSharePercentage` is maximum 100.
-         */
-        assert(vars.mathErr == MathError.NO_ERROR);
-
-        (vars.mathErr, vars.recipientShareMantissa) = mulUInt(recipientSharePercentage, onePercent);
-        /*
-         * `mulUInt` can only return MathError.INTEGER_OVERFLOW but we control `onePercent` and
-         * we know `recipientSharePercentage` is maximum 100.
-         */
-        assert(vars.mathErr == MathError.NO_ERROR);
-
 
         /* Create and store the compounding stream vars. */
         uint256 exchangeRateCurrent = ICERC20(tokenAddress).exchangeRateCurrent();
@@ -203,6 +192,7 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
         });
 
         emit CreateCompoundingStream(streamId, exchangeRateCurrent, senderSharePercentage, recipientSharePercentage);
+
         return streamId;
     }
 }
