@@ -150,4 +150,59 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
         remainingBalance2 = streamedSwaps[streamedSwapId].remainingBalance2;
         ratePerSecond = streamedSwaps[streamedSwapId].ratePerSecond;
     }
+
+
+    /***
+     * @notice - This method is for streamed-compounding-swap
+     ***/
+    function createStreamedCompoundingSwap(
+        address recipient,
+        uint256 deposit,
+        address tokenAddress,
+        uint256 startTime,
+        uint256 stopTime,
+        uint256 senderSharePercentage,
+        uint256 recipientSharePercentage
+    ) external whenNotPaused returns (uint256) {
+        require(cTokenManager.isCToken(tokenAddress), "cToken is not whitelisted");
+        CreateStreamedCompoundingSwapLocalVars memory vars;
+
+        /* Ensure that the interest shares sum up to 100%. */
+        (vars.mathErr, vars.shareSum) = addUInt(senderSharePercentage, recipientSharePercentage);
+        require(vars.mathErr == MathError.NO_ERROR, "share sum calculation error");
+        require(vars.shareSum == 100, "shares do not sum up to 100");
+
+        uint256 streamId = _createStreamedSwap(recipient, deposit, tokenAddress, startTime, stopTime);
+
+        /*
+         * `senderSharePercentage` and `recipientSharePercentage` will be stored as mantissas, so we scale them up
+         * by one percent in Exp terms.
+         */
+        (vars.mathErr, vars.senderShareMantissa) = mulUInt(senderSharePercentage, onePercent);
+        /*
+         * `mulUInt` can only return MathError.INTEGER_OVERFLOW but we control `onePercent` and
+         * we know `senderSharePercentage` is maximum 100.
+         */
+        assert(vars.mathErr == MathError.NO_ERROR);
+
+        (vars.mathErr, vars.recipientShareMantissa) = mulUInt(recipientSharePercentage, onePercent);
+        /*
+         * `mulUInt` can only return MathError.INTEGER_OVERFLOW but we control `onePercent` and
+         * we know `recipientSharePercentage` is maximum 100.
+         */
+        assert(vars.mathErr == MathError.NO_ERROR);
+
+
+        /* Create and store the compounding stream vars. */
+        uint256 exchangeRateCurrent = ICERC20(tokenAddress).exchangeRateCurrent();
+        compoundingStreamsVars[streamId] = Types.CompoundingStreamVars({
+            exchangeRateInitial: Exp({ mantissa: exchangeRateCurrent }),
+            isEntity: true,
+            recipientShare: Exp({ mantissa: vars.recipientShareMantissa }),
+            senderShare: Exp({ mantissa: vars.senderShareMantissa })
+        });
+
+        emit CreateCompoundingStream(streamId, exchangeRateCurrent, senderSharePercentage, recipientSharePercentage);
+        return streamId;
+    }
 }
