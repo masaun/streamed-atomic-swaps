@@ -11,11 +11,16 @@ import "./sablier-protocol/shared-contracts/compound/Exponential.sol";
 import "./storage/SmStorage.sol";
 import "./storage/SmConstants.sol";
 
-import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol";
+//import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/ERC20.sol"; // ERC20
+import "@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol";  // IERC20
 import "@openzeppelin/contracts-ethereum-package/contracts/ownership/Ownable.sol";
+
+import "@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol";
 
 
 contract StreamedSwap is Ownable, SmStorage, SmConstants {
+
+     using SafeMath for uint256;
 
     /**
      * @notice Counter for new stream ids.
@@ -79,15 +84,15 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
 
         /*** 
          * @notice - Swap streamed money
-         * @dev - The step is from 1st to 2nd  
+         * @dev - The step is from 1st to 2nd
          ***/
         // [1st Step]: Transfer deposited money from address of each other to contract address.
-        IERC20(tokenAddress1).transferFrom(msg.sender, address(this), deposit1);
-        IERC20(tokenAddress2).transferFrom(recipient, address(this), deposit2);
+        IERC20(tokenAddress1).transferFrom(msg.sender, address(this), deposit1.div(10**18));
+        IERC20(tokenAddress2).transferFrom(recipient, address(this), deposit2.div(10**18));
 
         // [2nd Step]: Transfer exchanged money from contract address to address of each other.
-        IERC20(tokenAddress1).transferFrom(address(this), recipient, deposit1);
-        IERC20(tokenAddress2).transferFrom(address(this), msg.sender, deposit2);        
+        IERC20(tokenAddress1).transferFrom(address(this), recipient, deposit1.div(10**18));
+        IERC20(tokenAddress2).transferFrom(address(this), msg.sender, deposit2.div(10**18));
 
 
         /* Increment the next stream id. */
@@ -105,5 +110,44 @@ contract StreamedSwap is Ownable, SmStorage, SmConstants {
 
         return streamedSwapId;
     }
-    
+
+
+    /*** View Functions ***/
+
+    /**
+     * @notice Returns the compounding stream with all its properties.
+     * @dev Throws if the id does not point to a valid streamedSwap.
+     * @param streamedSwapId The id of the stream to query.
+     * @return The streamedSwap object.
+     */
+    function getStreamedSwap(uint256 streamedSwapId)
+        external
+        view
+        //streamedSwapExists(streamedSwapId)
+        returns (
+            address sender,
+            address recipient,
+            uint256 deposit1,
+            uint256 deposit2,
+            address tokenAddress1,
+            address tokenAddress2,
+            uint256 startTime,
+            uint256 stopTime,
+            uint256 remainingBalance1,
+            uint256 remainingBalance2,
+            uint256 ratePerSecond
+        )
+    {
+        sender = streamedSwaps[streamedSwapId].sender;
+        recipient = streamedSwaps[streamedSwapId].recipient;
+        deposit1 = streamedSwaps[streamedSwapId].deposit1;
+        deposit2 = streamedSwaps[streamedSwapId].deposit2;
+        tokenAddress1 = streamedSwaps[streamedSwapId].tokenAddress1;
+        tokenAddress2 = streamedSwaps[streamedSwapId].tokenAddress2;
+        startTime = streamedSwaps[streamedSwapId].startTime;
+        stopTime = streamedSwaps[streamedSwapId].stopTime;
+        remainingBalance1 = streamedSwaps[streamedSwapId].remainingBalance1;
+        remainingBalance2 = streamedSwaps[streamedSwapId].remainingBalance2;
+        ratePerSecond = streamedSwaps[streamedSwapId].ratePerSecond;
+    }
 }
