@@ -1,11 +1,11 @@
 # Streamed Atomic Swaps
-（Current state is in progress）
 
 ***
 ## 【Introduction of Streamed Atomic Swaps】
 - This is the "Streamed Atomic Swaps".
-- This is integrated print token dApp for streaming money. (Hackathon: Take Back the Web Print Tokens In Return For Streaming Money).
-
+- This is dApp for "Streamed Atomic Swaps" by using sablier protocol.
+- I implement "Streamed Atomic Swaps" in `./contracts/StreamedSwap.sol` especially.
+  - Currently, I implement swap between DAI and BAT on ropsten.  (Both of value are static. So, I will replace value from static to dynamic in the future)
 
 &nbsp;
 
@@ -20,8 +20,7 @@ https://metamask.io/
 
 2. Adjust appropriate newwork below 
 ```
-Kovan Test Network
-
+Ropsten Test Network
 ```
 
 &nbsp;
@@ -32,7 +31,7 @@ Kovan Test Network
 ```
 (root directory)
 
-$ npm run migrate:kovan
+$ npm run migrate:ropsten
 ```
 
 &nbsp;
@@ -61,7 +60,16 @@ http://127.0.0.1:3000
 
 ***
 
-## 【References】
-- Gitcoin（Take Back the Web / Print Tokens In Return For Streaming Money）： https://gitcoin.co/issue/sablierhq/sablier/29/3870
-- 
-- 
+## 【References】  
+- Gitcoin / Take Back the Web  
+  https://gitcoin.co/issue/sablierhq/sablier/29/3870  
+
+- Document of sablier protocol    
+  - https://docs.sablier.finance/streams    
+  - https://faq.sablier.finance/    
+
+- Github of sablier protocol  
+  - https://github.com/sablierhq/sablier  
+ 
+- Discord of sablier protocol  
+  https://discordapp.com/channels/659709894315868191/659713154288451623
