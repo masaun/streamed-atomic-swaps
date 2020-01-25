@@ -1,8 +1,7 @@
 {
   "name": "zepkit",
   "version": "1.0.0",
-  "description": "Truffle box containing React, ZeppelinOS & OpenZeppelin",
-  "main": "index.js",
+  "description": "Streamed token swaps with Sablier",
   "scripts": {
     "test": "truffle test ./test/*",
     "start-blank": "rm -rf client/src && cp -rf barebones/src client/",
@@ -22,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rrecuero/zepkit.git"
+    "url": "git+https://github.com/masaun/streamed-atomic-swaps.git"
   },
   "keywords": [
     "zeppelinos",
@@ -30,12 +29,11 @@
     "truffle",
     "react"
   ],
-  "author": "Ramon Recuero <ramon@dapis.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rrecuero/zepkit/issues"
+    "url": "https://github.com/masaun/streamed-atomic-swaps/issues"
   },
-  "homepage": "https://github.com/rrecuero/zepkit#readme",
+  "homepage": "https://github.com/masaun/streamed-atomic-swaps#readme",
   "dependencies": {
     "@openzeppelin/contracts-ethereum-package": "^2.2.3",
     "@openzeppelin/upgrades": "^2.5.2",
